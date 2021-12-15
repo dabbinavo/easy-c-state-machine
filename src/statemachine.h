@@ -35,13 +35,13 @@ typedef int state_t;
 typedef struct statemachine statemachine_t;
 typedef struct state_functions state_functions_t;
 
-typedef void (*statemachine_runnable_t)(statemachine_t *statemachine);
+typedef void (*statemachine_entry_exit_t)(state_t current_state);
+typedef state_t (*statemachine_runnable_t)(state_t current_state);
 
 typedef enum {
   STATE_FINAL = -1,
   STATE_START = -2,
 } statemachine_states_t;
-
 
 struct statemachine {
   state_functions_t *sm;
@@ -50,9 +50,9 @@ struct statemachine {
 };
 
 struct state_functions {
-  statemachine_runnable_t enter;
+  statemachine_entry_exit_t enter;
   statemachine_runnable_t runnable;
-  statemachine_runnable_t exit;  
+  statemachine_entry_exit_t exit;  
 };
 
 

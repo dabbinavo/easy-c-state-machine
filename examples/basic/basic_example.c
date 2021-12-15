@@ -9,13 +9,13 @@ enum states {
   STATE_MAX,
 };
 
-static void StateAEnter(statemachine_t *sm);
-static void StateARunnable(statemachine_t *sm);
-static void StateALeave(statemachine_t *sm);
+static void StateAEnter(state_t current_state);
+static state_t StateARunnable(state_t current_state);
+static void StateALeave(state_t current_state);
 
-static void StateBEnter(statemachine_t *sm);
-static void StateBRunnable(statemachine_t *sm);
-static void StateBLeave(statemachine_t *sm);
+static void StateBEnter(state_t current_state);
+static state_t StateBRunnable(state_t current_state);
+static void StateBLeave(state_t current_state);
 
 
 int main(int argc, char *argv[]){
@@ -34,36 +34,37 @@ int main(int argc, char *argv[]){
 }
 
 
-void StateAEnter(statemachine_t *sm) {
+void StateAEnter(state_t current_state) {
   printf("entering state A\n");
 }
 
-void StateARunnable(statemachine_t *sm) {
+state_t StateARunnable(state_t current_state) {
   static uint8_t i = 0;
   printf("running stateA for the %u. time\n", ++i);
-
   if (i == 10) {
-    sm->next_state = STATE_B;
+    return STATE_B;
   }
+  return current_state;
 }
 
-void StateALeave(statemachine_t *sm) {
+void StateALeave(state_t current_state) {
   printf("leaving state A\n");
 }
 
 
-void StateBEnter(statemachine_t *sm) {
+void StateBEnter(state_t current_state) {
   printf("entering state B\n");
 }
 
-void StateBRunnable(statemachine_t *sm) {
+state_t StateBRunnable(state_t current_state) {
   static uint8_t i = 0;
   printf("running stateB for the %u. time\n", ++i);
   if (i == 5) {
-    sm->next_state = STATE_FINAL;
+    return STATE_FINAL;
   }
+  return current_state;
 }
 
-void StateBLeave(statemachine_t *sm) {
+void StateBLeave(state_t current_state) {
   printf("leaving state B\n");
 }

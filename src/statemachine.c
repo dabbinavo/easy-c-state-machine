@@ -14,20 +14,20 @@ state_t statemachine_process(statemachine_t *handle) {
   }
   
   if (handle->next_state != handle->current_state) {
+    handle->current_state = handle->next_state;
     // handle enter state
-    if ((handle->sm[handle->next_state]).enter != NULL) {
-      (handle->sm[handle->next_state]).enter(handle);
+    if ((handle->sm[handle->current_state]).enter != NULL) {
+      (handle->sm[handle->current_state]).enter(handle->current_state);
     }
   }
-  handle->current_state = handle->next_state;
 
   // process current state
-  (handle->sm[handle->current_state]).runnable(handle);
+  handle->next_state = (handle->sm[handle->current_state]).runnable(handle->current_state);
 
   if (handle->next_state != handle->current_state) {
     // leave state
     if ((handle->sm[handle->current_state]).exit != NULL) {
-      (handle->sm[handle->current_state]).exit(handle);
+      (handle->sm[handle->current_state]).exit(handle->current_state);
     }
     if (handle->next_state == STATE_FINAL) {
       handle->current_state = STATE_FINAL;
