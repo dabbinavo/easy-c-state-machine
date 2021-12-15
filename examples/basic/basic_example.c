@@ -9,13 +9,13 @@ enum states {
   STATE_MAX,
 };
 
-static void StateAEnter(state_t current_state);
+static void StateAEnter(state_t previous_state, state_t current_state);
 static state_t StateARunnable(state_t current_state);
-static void StateALeave(state_t current_state);
+static void StateALeave(state_t current_state, state_t next_state);
 
-static void StateBEnter(state_t current_state);
+static void StateBEnter(state_t previous_state, state_t current_state);
 static state_t StateBRunnable(state_t current_state);
-static void StateBLeave(state_t current_state);
+static void StateBLeave(state_t current_state, state_t next_state);
 
 
 int main(int argc, char *argv[]){
@@ -34,7 +34,7 @@ int main(int argc, char *argv[]){
 }
 
 
-void StateAEnter(state_t current_state) {
+void StateAEnter(state_t previous_state, state_t current_state) {
   printf("entering state A\n");
 }
 
@@ -47,12 +47,12 @@ state_t StateARunnable(state_t current_state) {
   return current_state;
 }
 
-void StateALeave(state_t current_state) {
+void StateALeave(state_t current_state, state_t next_state) {
   printf("leaving state A\n");
 }
 
 
-void StateBEnter(state_t current_state) {
+void StateBEnter(state_t previous_state, state_t current_state) {
   printf("entering state B\n");
 }
 
@@ -65,6 +65,6 @@ state_t StateBRunnable(state_t current_state) {
   return current_state;
 }
 
-void StateBLeave(state_t current_state) {
+void StateBLeave(state_t current_state, state_t next_state) {
   printf("leaving state B\n");
 }
